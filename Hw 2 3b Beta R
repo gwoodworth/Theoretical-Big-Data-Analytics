@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb 14 13:07:47 2019
+
+@author: glenwoodworth
+"""
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+n = 10
+p = 15
+MR=[]
+Llist=[]
+L=0
+for k in range(100):
+    L=L+3
+    X = np.matrix(np.random.uniform(0,1, (n,p)))
+    Y = np.matrix(np.random.uniform(0,1, (n,1)))
+    betaR = np.linalg.inv(X.T*X+L*np.eye(p))*(X.T*Y)
+    MR.append(betaR)
+    Llist.append(L)
+plt.figure()
+plt.xlabel('Lambda')
+plt.ylabel('BetaR')
+plt.plot(Llist,MR)
+
+

@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 17 14:12:19 2019
+
+@author: glenwoodworth
+"""
+import numpy as np
+g = [n,p,s]
+def initialize(g, X, fns):
+    u = .1
+    [], [], [], [], [], [] = xLst , hLst, gLst, sgLst, vLst, iLst
+    m = len(g) - 1
+    for k in range(0, m-1):
+        shape = (g[k+1] + 1, g[k+2]) if k > 0 else (g[k+1], g[k+2])
+        gLst.append(np.matrix(np.random.uniform(0, u, shape )))
+        hLst.append(np.matrix(np.random.uniform(-u, u, shape )))
+        vLst = [H.copy() for H in hLst]
+        sgLst = [abs(H.copy()) for H in hLst]
+        iLst = [H.copy() for H in hLst]
+    return hLst, gLst, sgLst, vLst, iLst
+hLst, gLst, sgLst, vLst, iLst = initialize(g, X, fns)
+ 
+def gcDeep(gLst, hLst, X, fns, dfns, dEdyhat):
+    m = len(hLst)
+    s = hLst[m-1].shape[1]
+    aLst = []
+    zPrimeLst = []
+    for k in range(m):
+        A = augment(X, 1) if k > 0 else X
+        aLst.append(A)
+        X = fns[k](A * hLst[k])
+        zPrimeLst.append(dfns[k](A*hLst[k]))
+    for r in range(m-1, -1, -1):
+        I, J = hLst[r].shape
+        E = np.matrix(np.zeros( ( I, J)))
+        AH = aLst[r]*hLst[r]
+        for i in range(I):
+            for j in range(J):
+                E[i, j] = 1
+                W = np.multiply(aLst[r]*E, dfns[r](AH) )
+                E[i, j] = 0
+                Z=W
+                for k in range(r+1,m):
+                    Z = np.multiply(Z*hLst[k][1:,:], zPrimeLst[k] )
+                    ''' Without using the previously computed matrix:
+                    Z = np.multiply(augment(Z,0)*hLst[k],dfns[k](aLst[k*hLst[k]]))
+                    '''
+                gLst[r][i, j] = sum([Z[:, c].T*dEdyhat[:, c]
+                                           for c in range(s)])
+                for j in range(J):
+                    return gLst
+
+def RMSProp(smoothGrad, grad, a):
+    lamb = .9
+    smoothGrad = lamb*smoothGrad + (1 - lamb)*np.power(grad,2)
+    return smoothGrad, a/np.sqrt(smoothGrad + 1e-6)
+
+yHat = fProp(F.R.X, hLst, fns)
+dEdyhat = -2 * (Y - yHat)
+alpha = .9 - .4*np.exp((1- it)*.0001)
+for r in range(len(hLst)):
+    iLst[r] = hLst[r] - alpha*vLst[r]
+gLst = gcDeep(gLst, iLst, X, fns, dfns, dEdyhat)
+a = .01*np.exp(- .001 * it)
+for r in range(len(hLst)):
+    sgLst[r], stepSizes = RMSProp(sgLst[r], gLst[r], a)
+    vLst[r] = .9*vLst[r] + np.multiply(stepSizes, gLst[r])
+    hLst[r] -= vLst[r]

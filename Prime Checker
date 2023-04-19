@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb 21 23:03:55 2019
+
+@author: glenwoodworth
+"""
+import math
+def sqrt(n):
+    for l in range(math.floor((n))):
+        s = l**2
+        if s == n:
+            return s
+            break
+        elif n < s:
+            t = math.sqrt(s)
+            return t
+            break
+        else:continue
+def main():
+    print('Prime Number Checker')
+    n = eval(input('What is the number?',))
+    if n==1:
+        print(n,'is prime')
+    elif n==0:
+        print(n, 'is not prime')
+    else:
+        q = .5*(math.floor(sqrt(n))-1)
+        if n%1==0 and n%2==1:
+            for k in range(1,math.floor(q)):
+                i = 2*k+1
+                f = n%i
+                if f == 0:
+                    print(n,'is not prime.')
+                    break
+                else: continue
+            print(n, 'is prime!')
+        else:print(n,'is not prime.')
+main()

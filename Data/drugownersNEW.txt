@@ -1,0 +1,15 @@
+1,Peyote
+2,Peyote
+3,Peyote
+4,Peyote
+5,Peyote
+6,LSD
+7,LSD
+8,LSD
+9,LSD
+10,LSD
+11,Shrooms
+12,Shrooms
+13,Shrooms
+14,Shrooms
+15,Shrooms
