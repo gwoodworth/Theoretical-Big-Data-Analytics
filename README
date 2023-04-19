@@ -1,1 +1,9 @@
 Course files from Theoretical Big Data Analytics (M462) at University of Montana, Spring 2019.
+Course Description:
+"The main goal of this course is to provide students with a unique opportunity to acquire conceptual knowledge 
+and theoretical background behind mathematical tools applicable to Big Data Analytics and Real Time Computations. 
+Specific challenges of Big Data Analytics, e.g., problems of extracting, unifying, updating, and merging information, 
+and processing of highly parallel and distributed data, will be reviewed. The tools for Big Data Analytics, such as 
+regression analysis, linear estimation, calibration problems, real time processing of incoming (potentially infinite) 
+data, will be studied in more detail. It will be shown how these approaches can be transformed to conform to the Big Data demands. 
+Level: Undergraduate"
